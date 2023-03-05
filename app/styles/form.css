@@ -1,0 +1,49 @@
+.Input {
+  border: none;
+  background: none;
+  border-radius: 0;
+  line-height: 48px;
+  padding: 0 16px;
+  width: 100%;
+  color: white;
+  font-size: 16px;
+}
+
+.Form {
+  display: flex;
+  align-items: baseline;
+}
+
+.Form__Group {
+  display: flex;
+  border: 2px solid;
+  color: white;
+  width: 100%;
+  border-radius: 24px;
+  align-items: baseline;
+}
+
+.Form__Legend {
+  padding-right: 16px;
+  display: none;
+}
+
+.Label {
+  flex: 1;
+}
+
+::placeholder {
+  opacity: 0.3;
+  color: var(--pallet-inverted);
+  font-style: italic;
+}
+
+.Newsletter__Header {
+  padding-bottom: 40px;
+}
+
+@media screen and (min-width: 500px) {
+  .Form__Legend {
+    display: block;
+  }
+}

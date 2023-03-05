@@ -1,0 +1,67 @@
+.Banner {
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.Banner--inverted {
+  background: var(--pallet-navy);
+  color: var(--pallet-inverted);
+}
+
+.Banner__Content {
+  padding: 80px 24px;
+  order: 1;
+}
+
+.Banner__Image {
+  order: 2;
+  overflow: hidden;
+}
+
+.Banner__Image .Image,
+.Banner__Image .Video {
+  object-fit: cover;
+  height: 100%;
+  width: 100%;
+}
+
+.Banner--inverted .Banner__Image {
+  border-radius: 0;
+}
+
+@media screen and (min-width: 1000px) {
+  .Section--Banner {
+    padding: 0 24px;
+  }
+
+  .Banner__left .Banner__Image {
+    order: 0;
+  }
+
+  .Banner {
+    flex-direction: row;
+    border-radius: var(--border-radius-large);
+  }
+
+  .Banner__Content {
+    width: 50%;
+    padding: 80px;
+  }
+
+  .Banner__Image {
+    width: 50%;
+  }
+
+  .Section--Banner:first-of-type .Banner .Banner__Image {
+    border-radius: var(--border-radius-large) 0 0 0;
+  }
+
+  .Section--Banner:last-of-type .Banner:not(.Banner--inverted) {
+    border-radius: var(--border-radius-large) var(--border-radius-large) 0
+      var(--border-radius-large);
+  }
+}

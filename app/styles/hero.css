@@ -1,0 +1,149 @@
+.Hero {
+  display: flex;
+  background: var(--pawzzle-piece-color);
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.Section--Hero {
+  position: relative;
+}
+
+.Hero__Left {
+  position: absolute;
+}
+
+.Hero__Right {
+  width: 100%;
+  margin: auto;
+  max-width: 1100px;
+}
+
+.Hero__ProductImage {
+  max-width: 550px;
+  align-self: center;
+  margin-bottom: -40px;
+}
+
+.Hero__Content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.Hero__Text {
+  margin: auto;
+  position: relative;
+  align-self: flex-start;
+  max-width: 750px;
+  z-index: 1;
+  margin-top: 120px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Hero__PriceGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  padding-bottom: 24px;
+  margin: auto;
+  width: 100%;
+}
+
+.Hero__Price {
+  width: 100%;
+  order: 1;
+}
+
+.Hero__Button {
+  position: absolute;
+  right: 0;
+  top: -160px;
+  padding: 40px 24px;
+}
+
+.Hero__Text .Heading--1,
+.Hero__Text .Heading--2,
+.Hero__Text .Heading--3,
+.Hero__Text .Heading--4,
+.Hero__Text .Heading--5,
+.Hero__Text p {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.Hero__Text .Heading--1 {
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.Hero__Text .Heading--2 {
+  padding-bottom: 8px;
+}
+
+.Hero__Text .Heading--3 {
+  text-align: center;
+  padding-bottom: 24px;
+}
+
+.Hero__Text .Heading--4 {
+  padding: 8px 24px;
+}
+
+.Hero__Media {
+  width: calc(100% - 16px);
+  margin-bottom: 56px;
+  background: var(--pallet-navy);
+}
+
+@keyframes rotate {
+  from {
+    transform: translate(50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(50%, -50%) rotate(1turn);
+  }
+}
+
+.Hero__Credit {
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 148px;
+  width: 148px;
+  transform-origin: 50% 50%;
+  animation: rotate 20s linear infinite;
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+@media screen and (min-width: 1000px) {
+  .Hero__Left {
+    width: 50%;
+  }
+
+  .Hero__Text {
+    margin-top: 160px;
+  }
+
+  .Hero {
+    flex-direction: row;
+  }
+
+  .Hero__PriceGroup {
+    margin: auto;
+  }
+
+  .Hero__Price {
+    order: 0;
+  }
+
+  .Hero__Button {
+    top: 0;
+    position: relative;
+  }
+}

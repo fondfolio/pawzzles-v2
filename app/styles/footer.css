@@ -1,0 +1,98 @@
+.Section--Footer {
+  background: var(--pallet-grey);
+  color: var(--pallet-inverted);
+  overflow: hidden;
+}
+
+.Footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.Footer__Primary,
+.Footer__Secondary,
+.Footer__Tertiary {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+  flex-wrap: wrap;
+}
+
+.Footer__Tertiary {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Newsletter {
+  width: 100%;
+}
+
+.Footer__Credit {
+  padding: 24px 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.Footer__Logo {
+  width: 100px;
+}
+
+.Instagram {
+  display: flex;
+  flex-direction: column;
+  padding: 48px 12px 32px;
+  margin: 0 -320px;
+}
+
+.Instagram__Heading {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.Instagram__Feed {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 2000px;
+  margin: auto;
+}
+
+.Instagram__Image {
+  display: block;
+  opacity: 1;
+}
+
+@media screen and (min-width: 750px) {
+  .Newsletter {
+    width: 75%;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .Footer__Logo {
+    width: 160px;
+  }
+
+  .Footer__Secondary,
+  .Footer__Tertiary {
+    flex-direction: row;
+  }
+
+  .Newsletter {
+    width: 50%;
+  }
+
+  .Footer__Credit {
+    flex: 1;
+    padding: 24px;
+  }
+
+  .Instagram {
+    margin: 0 -80px;
+  }
+}

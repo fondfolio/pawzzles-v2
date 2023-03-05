@@ -1,0 +1,36 @@
+.Link,
+a {
+  /* color: var(--pallet-grey); */
+  color: inherit;
+  text-decoration: underline;
+}
+
+.Link--Reset {
+  text-decoration: none;
+}
+
+p a,
+p .Link {
+  font-weight: inherit;
+  color: inherit;
+  position: relative;
+  display: inline-flex;
+}
+
+p .Link::after,
+p a::after {
+  transform-origin: 100% 100%;
+  transition: background 200ms;
+  position: absolute;
+  content: '';
+  left: -2px;
+  right: -3px;
+  top: 0;
+  bottom: 4px;
+  background: rgb(0 173 255 / 10%);
+}
+
+p .Link:hover::after,
+p a:hover::after {
+  background: rgb(0 173 255 / 15%);
+}

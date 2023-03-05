@@ -1,0 +1,172 @@
+*,
+*::before,
+*::after {
+  font-family: filson-soft, sans-serif;
+}
+
+.medium,
+.p,
+p {
+  padding-bottom: 0.25em;
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 300;
+  max-width: 750px;
+}
+
+.Heading--1,
+h1 {
+  font-size: 34px;
+  display: block;
+  padding: 0;
+  line-height: 1.25;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.Heading--2,
+h2 {
+  font-size: 30px;
+  display: block;
+  padding: 0;
+  line-height: 1.35;
+  font-weight: 600;
+}
+
+.Heading--3,
+h3 {
+  line-height: 1.35;
+  font-size: 28px;
+  display: block;
+  padding: 0;
+  font-weight: 300;
+}
+
+.Heading--4,
+h4 {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  display: block;
+  padding-bottom: 8px;
+  padding-top: 8px;
+}
+
+.small,
+.small > * {
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.strong.strong.strong {
+  font-weight: 600;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.normal {
+  font-style: normal;
+}
+
+.large,
+.large > * {
+  font-size: 24px;
+}
+
+.text-align--center {
+  text-align: center;
+}
+
+.Format ol,
+.Format ul {
+  padding-bottom: 32px;
+  padding-left: 28px;
+}
+
+.Format li:first-child {
+  padding-top: 0;
+}
+
+.Format li,
+.Format p {
+  padding-bottom: 16px;
+  font-size: 18px;
+  line-height: 1.55;
+  font-weight: 300;
+}
+
+.Format h2 {
+  padding-bottom: 24px;
+}
+
+.Heading--lined.Heading--lined.Heading--lined {
+  position: relative;
+  padding-left: 120px;
+}
+
+.Heading--lined::before {
+  position: absolute;
+  top: 50%;
+  left: -24px;
+  content: '';
+  width: 120px;
+  height: 5px;
+  background: var(--pallet-red);
+  border-radius: 4px;
+}
+
+.Dash {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  color: var(--pallet-red);
+  width: 24px;
+  margin: 24px 8px;
+}
+
+.Dash::before {
+  content: '';
+  background: currentColor;
+  height: 2px;
+  border-radius: 2px;
+  width: 100%;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  position: absolute;
+}
+
+@media screen and (min-width: 750px) {
+  .Format li,
+  .Format p {
+    font-size: 21px;
+  }
+
+  .medium,
+  p {
+    font-size: 21px;
+  }
+
+  .Heading--1,
+  h1 {
+    font-size: 48px;
+  }
+
+  .Heading--2,
+  h2 {
+    font-size: 34px;
+  }
+
+  .large > * {
+    font-size: 32px;
+  }
+}

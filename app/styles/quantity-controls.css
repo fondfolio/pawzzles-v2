@@ -1,0 +1,10 @@
+.QuantityControls {
+  display: flex;
+  align-items: center;
+}
+
+.QuantityControls > * {
+  margin: 0 8px;
+  min-width: 20px;
+  text-align: center;
+}

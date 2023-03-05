@@ -1,0 +1,7 @@
+.Icon path {
+  fill: var(--pallet-grey);
+}
+
+.Icon--inverted path {
+  fill: white;
+}

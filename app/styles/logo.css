@@ -1,0 +1,24 @@
+.Header .Logo {
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 24px;
+}
+
+.Logo svg {
+  height: auto;
+  top: 6px;
+  position: relative;
+  width: 120px;
+}
+
+@media screen and (min-width: 750px) {
+  .Header .Logo {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .Logo svg {
+    width: 160px;
+  }
+}

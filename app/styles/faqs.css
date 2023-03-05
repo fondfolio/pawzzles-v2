@@ -1,0 +1,19 @@
+.Faqs {
+  display: flex;
+  flex-direction: column;
+}
+
+.Faqs__Item {
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+}
+
+.Faqs__Item__Answer {
+  padding: 0 0 24px;
+}
+
+details > summary {
+  cursor: pointer;
+  display: block;
+}

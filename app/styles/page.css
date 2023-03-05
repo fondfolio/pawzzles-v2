@@ -1,0 +1,16 @@
+.Section--Page {
+  padding: 200px 0;
+}
+
+.Page__Title {
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+  padding: 0 0 40px;
+}
+
+.Page__Content {
+  max-width: 700px;
+  width: 100%;
+  margin: auto;
+}

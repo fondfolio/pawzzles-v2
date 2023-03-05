@@ -1,0 +1,45 @@
+video,
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.Image--floating img {
+  animation-name: floating;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+.Media {
+  position: relative;
+  overflow: hidden;
+  align-self: flex-start;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--box-shadow-depth-1);
+  margin: 8px;
+}
+
+.Media__Item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.Media--shadowed {
+  box-shadow: var(--box-shadow-depth-1);
+}
+
+@keyframes floating {
+  from {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 15px);
+  }
+  to {
+    transform: translate(0, -0);
+  }
+}

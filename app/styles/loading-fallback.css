@@ -1,0 +1,23 @@
+.LoadingFallback {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: progress;
+  background: var(--pallet-beige);
+}
+
+.LoadingFallback::after,
+.LoadingFallback::before {
+  position: absolute;
+  background-image: url('http://cdn.shopify.com/s/files/1/0457/6857/2950/files/cat-top-blue-static_2x_a74ea06d-edc8-4039-9c43-865ff34df537_750x.png');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  content: '';
+  height: 100px;
+  width: 100px;
+}

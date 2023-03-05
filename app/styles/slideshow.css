@@ -1,0 +1,92 @@
+.Section--Slideshow {
+  background: var(--pallet-grey);
+  color: white;
+  position: relative;
+}
+
+.Slideshow {
+  display: block;
+  padding: 120px 0;
+  overflow: hidden;
+}
+
+.Slideshow .swiper-container {
+  overflow: visible;
+}
+
+.Slideshow .swiper-slide {
+  width: 400px;
+  position: static;
+}
+
+.Slideshow__Item .Image {
+  width: 100%;
+}
+
+.Slideshow__Item {
+  position: relative;
+}
+
+.Slideshow__Item .Caption {
+  opacity: 0;
+  transform: translate(0, 0);
+  transition: all ease 200ms;
+  transition-delay: 0ms;
+  text-align: center;
+  width: 100%;
+  padding: 0 24px;
+}
+
+.Slideshow__Image {
+  margin: 12px;
+}
+
+.swiper-slide .Image {
+  transition: opacity ease 200ms;
+  opacity: 0.2;
+}
+
+.swiper-slide-active .Image {
+  opacity: 1;
+}
+
+.swiper-slide-active .Slideshow__Item .Caption {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition-delay: 100ms;
+}
+
+.Slideshow__Heading {
+  padding: 0 24px 80px;
+  max-width: 800px;
+  margin: auto;
+}
+
+.Slideshow__Pagination {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  display: flex;
+  z-index: 1;
+  width: 100%;
+  max-width: 800px;
+  justify-content: space-between;
+  padding: 24px;
+  margin-top: -16px;
+}
+
+.Pagination__Item {
+  cursor: pointer;
+  padding: 40px;
+  transition: opacity ease 400ms;
+}
+
+.Pagination__Item--next {
+  right: 0;
+  left: auto;
+}
+
+.Pagination__Item:hover {
+  opacity: 0.5;
+}

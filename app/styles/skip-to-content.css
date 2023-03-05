@@ -1,0 +1,17 @@
+.SkipToContent {
+  position: absolute;
+  left: 8px;
+  border-radius: 4px;
+  top: 0;
+  background: var(--main-bg-color);
+  z-index: 1;
+  transform: translateY(-100%);
+  padding: 8px 16px;
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--pallet-grey);
+}
+
+.SkipToContent:focus {
+  transform: translateY(0%);
+}

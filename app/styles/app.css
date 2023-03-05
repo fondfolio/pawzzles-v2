@@ -1,31 +1,88 @@
-body {
-  margin: 0;
-  background: #FFFFFF;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  padding: 20px;
+@import url('https://use.typekit.net/djw3mpd.css');
+@import url('./utils');
+@import url('./typography');
+@import url('./shared');
+@import url('./product');
+@import url('./page');
+@import url('./anchor');
+@import url('./footer');
+@import url('./header');
+@import url('./menu');
+@import url('./media');
+@import url('./image');
+@import url('./video');
+@import url('./pawzzle');
+@import url('./hero');
+@import url('./features');
+@import url('./faqs');
+@import url('./banner');
+@import url('./testimonial');
+@import url('./slideshow');
+@import url('./call-to-action');
+@import url('./form');
+@import url('./logo');
+@import url('./ticker');
+@import url('./button');
+@import url('./cart');
+@import url('./add-to-cart-controls');
+@import url('./nav');
+@import url('./drawer');
+@import url('./icon');
+@import url('./quantity-controls');
+@import url('./skip-to-content');
+@import url('./loading-fallback');
+
+model-viewer::part(default-progress-mask) {
+  display: none;
 }
 
-h1,
-h2,
-p {
+model-viewer::part(default-progress-bar) {
+  display: none;
+}
+
+:root {
+  --main-bg-color: rgb(245 243 219);
+  --pawzzle-bg-color: rgb(146 232 201);
+  --pawzzle-snack-color: rgb(255 135 135 / 47%);
+  --pawzzle-piece-color: rgb(152 241 209);
+  --pallet-inverted: rgb(255 255 255);
+  --pallet-blue: rgb(74 162 211);
+  --pallet-green: rgb(126 191 148);
+  --pallet-red: rgb(232 103 125);
+  --pallet-navy: rgb(0 48 66);
+  --pallet-grey: rgb(12 34 47);
+  --pallet-beige: rgb(245 243 219 / 65%);
+  --pallet-beige-light: rgb(245 243 219 / 65%);
+  --border-radius-large: 24px;
+  --box-shadow-depth-1: 0 0 20px 4px rgb(3 25 10 / 20%);
+}
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  line-height: 1.4;
+body {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  background-color: var(--main-bg-color);
+  background-image: url('/texture-static.jpg');
+  color: var(--pallet-grey);
 }
 
-h2 {
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.4;
+.Main {
+  z-index: 0;
+  position: relative;
+  background: var(--pallet-beige);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-p {
-  font-size: 1rem;
-  line-height: 1.4;
+.Content {
+  flex: 1;
 }

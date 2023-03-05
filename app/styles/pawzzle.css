@@ -1,0 +1,121 @@
+.Pawzzle {
+  display: flex;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+
+.Piece__Group {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.Piece {
+  display: flex;
+  flex-direction: column;
+  height: 50vw;
+  position: relative;
+  background: var(--pawzzle-bg-color);
+  order: 2;
+}
+
+.Piece--extend::after {
+  content: '';
+  left: 0;
+  right: 0;
+  top: 100%;
+  background: var(--pawzzle-piece-color);
+  position: absolute;
+  height: 500%;
+}
+
+.Piece--fill {
+  background: var(--pawzzle-piece-color);
+}
+
+.Piece__Bottom,
+.Piece__Top {
+  height: 50%;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 0;
+  position: relative;
+}
+
+.Snack {
+  display: block;
+  background: var(--pawzzle-snack-color);
+  position: fixed;
+  height: 22vw;
+  width: 22vw;
+  border-radius: 50%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  mix-blend-mode: hard-light;
+}
+
+.Snack--1 {
+  left: 15vw;
+  top: 1vw;
+}
+
+.Snack--2 {
+  left: 18vw;
+  top: 50vw;
+}
+
+.Snack--3 {
+  left: 60vw;
+  top: 10vw;
+}
+
+.order-0 {
+  order: 0;
+}
+
+.order-1 {
+  order: 1;
+}
+
+.order-2 {
+  order: 2;
+}
+
+.order-3 {
+  order: 3;
+}
+
+@media screen and (min-width: 1000px) {
+  .Pawzzle {
+    position: relative;
+  }
+
+  .Piece {
+    height: 25vw;
+    width: 25vw;
+  }
+
+  .Snack {
+    height: 10vw;
+    width: 10vw;
+  }
+
+  .Snack--1 {
+    left: 4vw;
+    top: 1vw;
+  }
+
+  .Snack--2 {
+    left: 11vw;
+    top: 35vw;
+  }
+
+  .Snack--3 {
+    left: 32vw;
+    top: 10vw;
+  }
+}

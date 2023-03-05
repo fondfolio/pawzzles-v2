@@ -1,0 +1,70 @@
+{
+  "general": {
+    "404": {
+      "title": "404 Page Not Found",
+      "text": "The page you requested does not exist."
+    },
+    "common": {
+      "action_text": "Get a Pawzzle"
+    }
+  },
+  "layout": {
+    "cart": {
+      "add_to_cart": "Add to cart",
+      "no_variants_text": "There is only one type!",
+      "title": "Cart",
+      "close": "Close",
+      "empty_cart_heading": "Your cart is currently empty",
+      "empty_cart_text": "Get a Pawzzle for your cat. If you don’t have a cat, you must know someone that does — they’d love this!",
+      "empty_cart_action_text": "Get a Pawzzle",
+      "checkout": "Checkout",
+      "subtotal": "Subtotal",
+      "add_item": "Add item",
+      "subtract_item": "Subtract item",
+      "remove": "Remove"
+    },
+    "customer": {
+      "account": "Account",
+      "log_in": "Log in",
+      "logout": "Log out",
+      "register": "Register"
+    },
+    "pages": {
+      "faqs": "FAQs",
+      "about": "About"
+    }
+  },
+  "footer": {
+    "instagram_heading": "Follow us on Instagram"
+  },
+  "cart": {
+    "subtotal": "Subtotal"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "description": "Description",
+      "empty_product_title": "Your product's name",
+      "on_sale": "Sale",
+      "product_variants": "Product variants",
+      "quantity": {
+        "label": "Quantity",
+        "increase": "Increase quantity",
+        "decrease": "Decrease quantity"
+      },
+      "price": {
+        "from_price_html": "From {{ price }}",
+        "regular_price": "Regular price",
+        "sale_price": "Sale price",
+        "unit_price": "Unit price"
+      },
+      "share": "Share this product",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "vendor": "Vendor",
+      "view_full_details": "View full details",
+      "view_full_details_title": "View full details about {{ title }}",
+      "video_exit_message": "{{ title }} opens full screen video in same window."
+    }
+  }
+}

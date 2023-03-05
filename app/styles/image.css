@@ -1,0 +1,8 @@
+.Section--Image {
+  padding: 48px 0;
+}
+
+.Section--Image img {
+  width: auto;
+  margin: auto;
+}

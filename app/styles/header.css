@@ -1,0 +1,12 @@
+.Section--Header {
+  z-index: 2;
+  left: 0;
+  right: 0;
+  position: fixed;
+  top: 0;
+}
+
+.Header {
+  display: flex;
+  align-items: center;
+}

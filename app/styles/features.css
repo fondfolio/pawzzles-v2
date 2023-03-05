@@ -1,0 +1,24 @@
+.Section--Features {
+  padding: 40px 0 0;
+}
+
+.Features {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.Features__Item {
+  text-align: center;
+  padding: 40px;
+}
+
+@media screen and (min-width: 750px) {
+  .Features {
+    flex-direction: row;
+  }
+
+  .Features__Item {
+    width: 33.33%;
+  }
+}
