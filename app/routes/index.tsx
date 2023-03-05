@@ -142,6 +142,17 @@ const QUERY = `#graphql
     product: product(handle: $handle) {
       id
       vendor
+      variants(first: 1) {
+        edges {
+          node {
+            id
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
       seo {
         title
         description

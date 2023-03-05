@@ -22,7 +22,7 @@ export function Hero({product}) {
                 className="Piece__Top"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg)',
                 }}
               />
               <div className="Snack Snack--1" />
@@ -30,7 +30,7 @@ export function Hero({product}) {
                 className="Piece__Bottom"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg)',
                 }}
               />
             </div>
@@ -40,7 +40,7 @@ export function Hero({product}) {
                 className="Piece__Top"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg)',
                 }}
               />
               <div className="Snack Snack--2" />
@@ -48,7 +48,7 @@ export function Hero({product}) {
                 className="Piece__Bottom"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg)',
                 }}
               />
             </div>
@@ -60,7 +60,7 @@ export function Hero({product}) {
                 className="Piece__Bottom order-1"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-bottom-static.svg)',
                 }}
               />
               <div className="Snack Snack--3" />
@@ -68,7 +68,7 @@ export function Hero({product}) {
                 className="Piece__Top"
                 style={{
                   backgroundImage:
-                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg);',
+                    'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-piece-single-top-static.svg)',
                 }}
               />
             </div>
@@ -101,7 +101,7 @@ export function Hero({product}) {
                 <div className="Price Heading--2">
                   <dl>
                     <Money
-                      money={{
+                      data={{
                         amount: firstVariant.price.amount,
                         currencyCode: firstVariant.price.currencyCode,
                       }}
