@@ -3,6 +3,7 @@ import {
   type MetaFunction,
   type LoaderArgs,
 } from '@shopify/remix-oxygen';
+import {useEffect} from 'react';
 import {
   Links,
   Meta,
@@ -10,9 +11,18 @@ import {
   Scripts,
   ScrollRestoration,
   useLoaderData,
+  useLocation,
 } from '@remix-run/react';
+import {
+  AnalyticsEventName,
+  getClientBrowserParameters,
+  sendShopifyAnalytics,
+  ShopifySalesChannel,
+  useShopifyCookies,
+} from '@shopify/hydrogen';
 import type {Shop} from '@shopify/hydrogen/storefront-api-types';
 import styles from './styles/app.css';
+import {useAnalyticsFromLoaders} from './lib/analytics';
 import favicon from '../public/favicon.svg';
 
 export const links: LinksFunction = () => {
@@ -43,13 +53,38 @@ export const meta: MetaFunction = () => ({
 
 export async function loader({context}: LoaderArgs) {
   const layout = await context.storefront.query<{shop: Shop}>(LAYOUT_QUERY);
-  return {layout};
+  const cartId = await context.session.get('cartId');
+  return {layout, cartId};
 }
 
 export default function App() {
+  const hasUserConsent = true;
+  useShopifyCookies({hasUserConsent});
   const data = useLoaderData<typeof loader>();
+  const location = useLocation();
+  const pageAnalytics = useAnalyticsFromLoaders();
 
-  const {name} = data.layout.shop;
+  const {moneyFormat, id: shopId} = data.layout.shop;
+
+  const currency = 'USD' as const;
+  useEffect(() => {
+    const payload = {
+      ...getClientBrowserParameters(),
+      ...pageAnalytics,
+      cartId: data.cartId,
+      shopId,
+      hasUserConsent,
+      shopifySalesChannel: ShopifySalesChannel.hydrogen,
+      currency,
+    };
+
+    console.log('payload', payload);
+
+    sendShopifyAnalytics({
+      eventName: AnalyticsEventName.PAGE_VIEW,
+      payload,
+    });
+  }, [location]);
 
   return (
     <html lang="en">
@@ -71,6 +106,8 @@ const LAYOUT_QUERY = `#graphql
     shop {
       name
       description
+      id
+      moneyFormat
     }
   }
 `;

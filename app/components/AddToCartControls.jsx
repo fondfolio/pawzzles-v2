@@ -6,7 +6,7 @@ import {
   useProduct,
 } from '@shopify/hydrogen/client';
 import {translations} from '../lib/translation';
-import {useCartUI} from './CartUIProvider.client';
+import {useCartUI} from './CartUIProvider';
 
 import {Button} from './Button';
 import {QuantityControls} from './QuantityControls';
