@@ -24,6 +24,9 @@ export async function loader({params, context}: LoaderArgs) {
 
   return defer({
     product,
+    analytics: {
+      pageType: 'product',
+    },
   });
 }
 

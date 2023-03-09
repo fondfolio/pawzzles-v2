@@ -146,7 +146,7 @@ export function Hero({product}) {
         href="https://fondfolio.com"
         style={{
           backgroundImage:
-            'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/credit-static.svg?v=18250149605501557923);',
+            'url(//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/credit-static.svg?v=18250149605501557923)',
         }}
       >
         <span className="Heading--4 strong visually-hidden">
