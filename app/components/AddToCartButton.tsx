@@ -1,6 +1,14 @@
 import {Button} from './Button';
+import {useFetcher} from '@remix-run/react';
+import {CartAction} from '../../cart/types';
 
-export function AddToCartButton({children, lines, productAnalytics}) {
+interface Props {
+  children: React.ReactNode;
+  lines: LineItem[];
+  productAnalytics?: unknown;
+}
+
+export function AddToCartButton({children, lines, productAnalytics}: Props) {
   const fetcher = useFetcher();
   const analytics = {
     event: 'addToCart',
@@ -10,11 +18,9 @@ export function AddToCartButton({children, lines, productAnalytics}) {
   return (
     <fetcher.Form action="/cart" method="post">
       <input type="hidden" name="analytics" value={JSON.stringify(analytics)} />
-      <input type="hidden" name="cartAction" value={CartAction.ADD_TO_CART} />
+      <input type="hidden" name="cartAction" value="ADD_TO_CART" />
       <input type="hidden" name="lines" value={JSON.stringify(lines)} />
-      <Button as="button" type="submit">
-        {children}
-      </Button>
+      <Button>{children}</Button>
     </fetcher.Form>
   );
 }
