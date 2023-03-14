@@ -9,6 +9,8 @@ import {
   type Session,
 } from '@shopify/remix-oxygen';
 
+import {UnstableCart} from './app/lib/cart/cart.server';
+
 /**
  * Export a fetch handler in module format.
  */
@@ -48,6 +50,8 @@ export default {
         requestGroupId: request.headers.get('request-id'),
       });
 
+      const cart = await UnstableCart.init(request, storefront);
+
       /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
@@ -55,7 +59,7 @@ export default {
       const handleRequest = createRequestHandler({
         build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => ({session, storefront, env}),
+        getLoadContext: () => ({session, storefront, cart, env}),
       });
 
       const response = await handleRequest(request);

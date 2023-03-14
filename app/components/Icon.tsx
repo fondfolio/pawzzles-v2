@@ -2,10 +2,16 @@ import React from 'react';
 import {classNames} from '@shopify/css-utilities';
 import * as icons from '../svgs';
 
-export function Icon({name, inverted, ...rest}) {
+interface IconProps {
+  name: keyof typeof icons;
+  inverted?: boolean;
+}
+
+export function Icon({name, inverted, ...rest}: IconProps) {
   const Svg = icons[name];
 
   const iconClassName = classNames('Icon', {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     'Icon--inverted': inverted,
   });
 

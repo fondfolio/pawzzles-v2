@@ -1,7 +1,27 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import React from 'react';
 import {classNames} from '@shopify/css-utilities';
 
 import {Icon} from './Icon';
+
+interface ButtonProps {
+  onClick?(): void;
+  primary?: boolean;
+  inverted?: boolean;
+  outline?: boolean;
+  small?: boolean;
+  stretch?: boolean;
+  icon?: {
+    name: keyof typeof import('../svgs');
+    fallbackText: string;
+  };
+  url?: string;
+  children?: React.ReactNode;
+  loading?: boolean;
+  padded?: boolean;
+  extrude?: boolean;
+  circle?: boolean;
+}
 
 export function Button({
   onClick,
@@ -17,7 +37,7 @@ export function Button({
   padded,
   extrude,
   circle,
-}) {
+}: ButtonProps) {
   const buttonClassName = classNames('Button', {
     'Button--icon': icon,
     'Button--square': icon && icon.fallbackText,
@@ -66,3 +86,4 @@ export function Button({
 
   return element;
 }
+/* eslint-enable @typescript-eslint/naming-convention */
