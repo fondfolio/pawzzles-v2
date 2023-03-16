@@ -5,6 +5,8 @@ export {Illustration} from './Illustration';
 export {Hero} from './Hero';
 export {Link} from './Link';
 export {Testimonial} from './Testimonial';
+export {Button} from './Button';
+export {Cart} from './Cart';
 
 // export {Heading, Section, Text, PageHeader} from './Text';
 // export {Input} from './Input';
@@ -15,7 +17,6 @@ export {Testimonial} from './Testimonial';
 // export {Skeleton} from './Skeleton';
 // export {Button} from './Button';
 // export {CountrySelector} from './CountrySelector';
-// export {Cart} from './Cart';
 // export {CartLoading} from './CartLoading';
 // export {OrderCard} from './OrderCard';
 // export {AccountDetails} from './AccountDetails';

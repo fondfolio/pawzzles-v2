@@ -26,7 +26,6 @@ export async function loader({params, context}: LoaderArgs) {
 
 export default function Index({country = {isoCode: 'US'}}) {
   const {product} = useLoaderData<typeof loader>();
-  const {media, title, vendor, descriptionHtml} = product;
 
   return (
     <Layout>
@@ -142,6 +141,8 @@ const QUERY = `#graphql
     product: product(handle: $handle) {
       id
       vendor
+      title
+      handle
       variants(first: 1) {
         edges {
           node {

@@ -1,6 +1,20 @@
 import {classNames} from '@shopify/css-utilities';
 
-export function Banner({children, heading, media, align, inverted}) {
+interface BannerProps {
+  children: React.ReactNode;
+  heading: string;
+  media: React.ReactNode;
+  align: 'left' | 'right';
+  inverted: boolean;
+}
+
+export function Banner({
+  children,
+  heading,
+  media,
+  align,
+  inverted,
+}: BannerProps) {
   const className = classNames(
     'Banner',
     'Global__Section',

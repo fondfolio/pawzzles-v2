@@ -9,7 +9,7 @@ import {
   type Session,
 } from '@shopify/remix-oxygen';
 
-import {UnstableCart} from './app/lib/cart/cart.server';
+import {AlphaCart} from './app/lib/cart/cart.server';
 
 /**
  * Export a fetch handler in module format.
@@ -50,7 +50,18 @@ export default {
         requestGroupId: request.headers.get('request-id'),
       });
 
-      const cart = await UnstableCart.init(request, storefront);
+      const cart = await AlphaCart.init(
+        request,
+        storefront,
+        createCookieSessionStorage({
+          cookie: {
+            name: 'session',
+            httpOnly: true,
+            path: '/',
+            sameSite: 'lax',
+          },
+        }),
+      );
 
       /**
        * Create a Remix request handler and pass

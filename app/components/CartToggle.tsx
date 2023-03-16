@@ -1,7 +1,12 @@
 import {Icon} from './Icon';
 import {classNames} from '@shopify/css-utilities';
+import {Link} from '~/components/Link';
 
-export default function CartToggle({handleClick, text}) {
+interface Props {
+  text: string;
+}
+
+export default function CartToggle({text}: Props) {
   const isCartOpen = false;
   const buttonClassName = classNames('Button', {
     CartToggle: true,
@@ -18,17 +23,13 @@ export default function CartToggle({handleClick, text}) {
   );
 
   return (
-    <button
+    <span
       className={buttonClassName}
-      type="button"
       aria-expanded={isCartOpen}
       aria-controls="cart"
-      onClick={() => {
-        handleClick();
-      }}
     >
-      {countMarkup}
+      <Link to="/cart">{countMarkup}</Link>
       <span className="visually-hidden">{text}</span>
-    </button>
+    </span>
   );
 }

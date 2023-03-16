@@ -1,4 +1,3 @@
-import React from 'react';
 import {translations} from '../lib/translation';
 
 import {Button} from './Button';

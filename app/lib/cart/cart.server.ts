@@ -8,7 +8,6 @@ import type {
   CartBuyerIdentityInput,
 } from '@shopify/hydrogen/storefront-api-types';
 import {
-  createCookieSessionStorage,
   type AppLoadContext,
   type SessionStorage,
   type Session,
@@ -22,13 +21,6 @@ interface CartOptions {
   countryCode?: string;
   cartFrament?: string;
   numCartLines?: number;
-  cookie?: Partial<{
-    name: string;
-    secrets: string[];
-    httpOnly: boolean;
-    path: string;
-    sameSite: 'lax' | 'strict';
-  }>;
 }
 
 interface Result {
@@ -40,7 +32,7 @@ interface OperationOptions {
   redirect?: string;
 }
 
-export class UnstableCart {
+export class AlphaCart {
   private cartFragment: string;
   private countryCode: string;
   private numCartLines: number;
@@ -57,36 +49,31 @@ export class UnstableCart {
     this.numCartLines = options.numCartLines || 250;
   }
 
-  // async perform(action: string) {
-  //   switch (action) {
-  //     case 'ADD_TO_CART':
-  //       return this.linesAdd();
-  //     case 'REMOVE_FROM_CART':
-  //       return this.lineRemove();
-  //     case 'UPDATE_CART':
-  //       return this.lineUpdate();
-  //     case 'UPDATE_DISCOUNT':
-  //       return this.discountCodesUpdate();
-  //     case 'UPDATE_BUYER_IDENTITY':
-  //       return this.buyerIdentityUpdate();
-  //     default:
-  //       // TODO make typescript aware
-  //       throw new Error(`Unknown cart action: ${action}`);
-  //   }
-  // }
+  async perform(request: Request) {
+    const formData = await request.formData();
+    const action = formData.get('action');
+
+    const lines = this.parse(formData.get('lines'));
+
+    switch (action) {
+      case 'ADD_TO_CART':
+        return this.linesAdd({lines});
+
+      default:
+        // TODO make typescript aware
+        throw new Error(`Unknown cart action: ${action}`);
+    }
+  }
 
   get id() {
     return this.session.get('cartId');
   }
 
   set id(value: string) {
-    console.log('set cart id', value);
     this.session.set('cartId', value);
   }
 
   async get() {
-    console.log('get cart');
-    console.log('cart id', this.id);
     if (!this.id) {
       return null;
     }
@@ -98,6 +85,8 @@ export class UnstableCart {
         cache: this.storefront.CacheNone(),
       },
     );
+
+    console.log('cart', cart);
 
     return cart;
   }
@@ -136,8 +125,9 @@ export class UnstableCart {
     {lines}: {lines: CartLineInput[]},
     options: OperationOptions = {},
   ) {
+    console.log(lines);
     if (!this.id) {
-      return this.create({input: {lines: JSON.parse(String(lines))}}, options);
+      return this.create({input: {lines}}, options);
     } else {
       const {cartLinesAdd} = await this.storefront.mutate<{
         cartLinesAdd: {
@@ -145,7 +135,7 @@ export class UnstableCart {
           errors: CartUserError[];
         };
       }>(CartLinesAdd(this.cartFragment), {
-        variables: {cartId: this.id, lines: JSON.parse(String(lines))},
+        variables: {cartId: this.id, lines, countryCode: this.countryCode},
       });
 
       const response = await this.respond(cartLinesAdd, options);
@@ -186,20 +176,19 @@ export class UnstableCart {
   static async init(
     request: Request,
     storefront: Storefront,
+    storage: SessionStorage,
     options: CartOptions = {},
   ) {
-    const storage = createCookieSessionStorage({
-      cookie: {
-        name: 'session',
-        httpOnly: true,
-        path: '/',
-        sameSite: 'lax',
-        ...options.cookie,
-      },
-    });
-
     const session = await storage.getSession(request.headers.get('Cookie'));
     return new this(storage, session, storefront, options);
+  }
+
+  private parse(input: FormDataEntryValue | null) {
+    if (input === null) {
+      throw new Error('Missing input');
+    }
+
+    return JSON.parse(String(input));
   }
 }
 
@@ -466,10 +455,12 @@ export const defaultCartFragment = /* GraphQL */ `
       code
     }
   }
+
   fragment MoneyFragment on MoneyV2 {
     currencyCode
     amount
   }
+
   fragment ImageFragment on Image {
     id
     url

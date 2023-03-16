@@ -1,13 +1,15 @@
 import {json, ActionArgs, LoaderArgs} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
-import {useCart} from '~/lib/cart/cart';
+import {useCart} from '~/lib/cart/hooks';
+import {Layout} from '~/components';
+import {Cart as CartUi} from '~/components';
 
 export async function action({request, context}: ActionArgs) {
   const {cart} = context;
 
-  const [formData] = await Promise.all([request.formData()]);
+  console.log('hit cart action');
 
-  const [result, head] = await cart.linesAdd({lines: formData.get('lines')});
+  const [result, head] = await cart.perform(request);
 
   return json({cart: result}, {headers: head.headers, status: head.status});
 }
@@ -21,14 +23,11 @@ export async function loader({context}: LoaderArgs) {
 }
 
 export default function Cart() {
-  const cart = useCart();
-  const {cart: cartResponse} = useLoaderData<typeof loader>();
-
   return (
-    <div>
-      <h1>Cart</h1>
-      <pre>{JSON.stringify(cartResponse, null, 2)}</pre>
-      <pre>{JSON.stringify(cart, null, 2)}</pre>
-    </div>
+    <Layout>
+      <section className="Cart Global__Section">
+        <CartUi />
+      </section>
+    </Layout>
   );
 }

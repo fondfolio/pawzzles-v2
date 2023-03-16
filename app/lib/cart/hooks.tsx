@@ -14,18 +14,6 @@ interface Props {
   action: CartAction;
 }
 
-export function CartForm({children, lines, analytics}: Props) {
-  const fetcher = useFetcher();
-
-  return (
-    <fetcher.Form action="/cart" method="post">
-      <input type="hidden" name="analytics" value={JSON.stringify(analytics)} />
-      <input type="hidden" name="cartAction" value="ADD_TO_CART" />
-      <input type="hidden" name="lines" value={JSON.stringify(lines)} />
-      {children}
-    </fetcher.Form>
-  );
-}
 export function useMatchesData(id: string) {
   const matchingRoutes = useMatches();
   const route = useMemo(
