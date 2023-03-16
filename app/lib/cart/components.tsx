@@ -2,35 +2,25 @@ import {
   CartLineInput,
   CartLineUpdateInput,
 } from '@shopify/hydrogen/storefront-api-types';
-import {Form} from '@remix-run/react';
+import {type FetcherWithComponents, useFetcher} from '@remix-run/react';
 import {CartAction} from './types';
-
-interface Props<T> {
-  children?: React.ReactNode;
-  action: T;
-  trigger: React.ReactNode;
-  inputs: CartLineInput[];
-}
 
 type CartActionProps<T> = T extends 'LINES_ADD'
   ? {
-      children?: React.ReactNode;
       action: T;
-      trigger: React.ReactNode;
+      children?: (fetcher: FetcherWithComponents<any>) => React.ReactNode;
       inputs: CartLineInput[];
     }
   : T extends 'LINES_UPDATE'
   ? {
-      children?: React.ReactNode;
       action: T;
-      trigger: React.ReactNode;
+      children?: (fetcher: FetcherWithComponents<any>) => React.ReactNode;
       inputs: CartLineUpdateInput[];
     }
   : T extends 'LINES_REMOVE'
   ? {
-      children?: React.ReactNode;
       action: T;
-      trigger: React.ReactNode;
+      children?: (fetcher: FetcherWithComponents<any>) => React.ReactNode;
       inputs: {
         lineIds: string[];
       };
@@ -39,10 +29,10 @@ type CartActionProps<T> = T extends 'LINES_ADD'
 
 export function CartAction<T extends CartAction>({
   children,
-  trigger,
   inputs,
   action,
 }: CartActionProps<T>) {
+  const fetcher = useFetcher();
   let fields: React.ReactNode[] | null = null;
 
   switch (action) {
@@ -59,15 +49,13 @@ export function CartAction<T extends CartAction>({
       });
       break;
     case 'LINES_ADD':
-      fields = inputs.map((line) => {
+      fields = inputs?.map((line) => {
         return (
           <input
             key={line.merchandiseId}
             type="hidden"
             name="lines"
-            value={JSON.stringify({
-              line,
-            })}
+            value={JSON.stringify([line])}
           />
         );
       });
@@ -80,11 +68,10 @@ export function CartAction<T extends CartAction>({
   }
 
   return (
-    <Form action="/cart" method="post">
+    <fetcher.Form action="/cart" method="post">
       <input type="hidden" name="action" value={action} />
       {fields}
-      {trigger}
-      {children}
-    </Form>
+      {typeof children === 'function' && children(fetcher)}
+    </fetcher.Form>
   );
 }

@@ -17,22 +17,13 @@ interface CartProps {
 }
 
 export function Cart({theme}: CartProps) {
-  const {lines} = useCart() || {};
+  const cart = useCart();
 
-  const flattenedLines = flattenConnection(lines);
+  if (!cart) return <CartEmpty />;
 
-  if (flattenedLines.length === 0) {
-    return (
-      <div className="Cart">
-        <div className="Cart__Empty">
-          <h3>Your cart is empty.</h3>
-          <p>
-            <Link to="/products/pawzzle">Continue Shopping</Link>
-          </p>
-        </div>
-      </div>
-    );
-  }
+  const flattenedLines = flattenConnection(cart.lines);
+
+  if (flattenedLines.length === 0) return <CartEmpty />;
 
   return (
     <div className="Cart">
@@ -44,6 +35,16 @@ export function Cart({theme}: CartProps) {
   );
 }
 
+function CartEmpty() {
+  return (
+    <div className="Cart">
+      <div className="Cart__Empty">
+        <h3>Your cart is empty.</h3>
+        <Link to="/products/pawzzle">Continue Shopping</Link>
+      </div>
+    </div>
+  );
+}
 interface CartItemProps {
   theme: Theme;
   item: CartLine;
@@ -75,16 +76,18 @@ function CartItem({item, theme}: CartItemProps) {
       <div className="Item__Details">
         <div className="Item__Line">
           <div className="Item__Info">
-            <Button primary inverted={theme === 'dark'} url={handle}>
+            <Button
+              primary
+              inverted={theme === 'dark'}
+              url={`products/${handle}`}
+            >
               {title}
             </Button>
             <h4>{byLineMarkup}</h4>
             <div className="Item__Remove">
               <Money data={price} className="Item__Price" />
-              <CartAction
-                inputs={{lineIds: [id]}}
-                action="LINES_REMOVE"
-                trigger={
+              <CartAction inputs={{lineIds: [id]}} action="LINES_REMOVE">
+                {() => (
                   <Button
                     aria-label="Remove from cart"
                     inverted={theme === 'dark'}
@@ -93,8 +96,8 @@ function CartItem({item, theme}: CartItemProps) {
                   >
                     {translations.layout.cart.remove}
                   </Button>
-                }
-              />
+                )}
+              </CartAction>
             </div>
           </div>
         </div>
@@ -121,9 +124,12 @@ function CartItem({item, theme}: CartItemProps) {
 }
 
 function CartFooter() {
-  const {checkoutUrl, cost} = useCart() || {};
+  const cart = useCart();
 
-  const {totalAmount} = cost || {};
+  if (!cart) return null;
+
+  const {checkoutUrl, cost} = cart;
+  const {totalAmount} = cost;
 
   return (
     <footer className="Cart__Footer">

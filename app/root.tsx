@@ -24,6 +24,7 @@ import type {Shop} from '@shopify/hydrogen/storefront-api-types';
 import styles from './styles/app.css';
 import {useAnalyticsFromLoaders} from './lib/analytics';
 import favicon from '../public/favicon.svg';
+import {NotFound} from '~/components';
 
 export const links: LinksFunction = () => {
   return [
@@ -97,6 +98,22 @@ export default function App() {
       </head>
       <body>
         <Outlet />
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
+  );
+}
+
+export function ErrorBoundary({error}: {error: Error}) {
+  return (
+    <html lang="en">
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <NotFound />
         <ScrollRestoration />
         <Scripts />
       </body>

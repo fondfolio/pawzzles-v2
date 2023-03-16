@@ -5,8 +5,8 @@ import {Button} from './Button';
 
 interface Props {
   line: CartLineUpdateInput;
-  inverted: boolean;
-  outline: boolean;
+  inverted?: boolean;
+  outline?: boolean;
   quantity: number;
 }
 
@@ -16,7 +16,8 @@ export function QuantityControls({outline, quantity, inverted, line}: Props) {
       <CartAction
         inputs={[{...line, quantity: quantity - 1}]}
         action="LINES_UPDATE"
-        trigger={
+      >
+        {() => (
           <Button
             outline={outline}
             inverted={inverted}
@@ -26,13 +27,14 @@ export function QuantityControls({outline, quantity, inverted, line}: Props) {
               fallbackText: translations.layout.cart.subtract_item,
             }}
           />
-        }
-      />
+        )}
+      </CartAction>
       <span className="strong Item__Quantity">{quantity}</span>
       <CartAction
         inputs={[{...line, quantity: quantity + 1}]}
         action="LINES_UPDATE"
-        trigger={
+      >
+        {() => (
           <Button
             outline={outline}
             inverted={inverted}
@@ -42,8 +44,8 @@ export function QuantityControls({outline, quantity, inverted, line}: Props) {
               fallbackText: translations.layout.cart.add_item,
             }}
           />
-        }
-      />
+        )}
+      </CartAction>
     </div>
   );
 }

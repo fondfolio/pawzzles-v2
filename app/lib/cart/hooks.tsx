@@ -7,13 +7,6 @@ import type {
 } from '@shopify/hydrogen/storefront-api-types';
 import {CartAction} from './types';
 
-interface Props {
-  children: React.ReactNode;
-  lines: CartLineInput[];
-  analytics?: unknown;
-  action: CartAction;
-}
-
 export function useMatchesData(id: string) {
   const matchingRoutes = useMatches();
   const route = useMemo(
@@ -27,5 +20,5 @@ export function useMatchesData(id: string) {
 export function useCart(): CartType | undefined {
   const data = useMatchesData('root');
 
-  return data.cart;
+  return data?.cart;
 }

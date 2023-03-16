@@ -1,12 +1,20 @@
 import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, useFetcher, Form} from '@remix-run/react';
+import {useLoaderData} from '@remix-run/react';
 import type {
   ProductVariant,
   Product as ProductType,
+  CartLineInput,
 } from '@shopify/hydrogen/storefront-api-types';
-import type {CartLineInput} from '@shopify/hydrogen/storefront-api-types';
-import {CartAction} from '~/lib/cart/types';
-import {Button, Layout, Banner, Illustration, Testimonial} from '~/components';
+import {Money} from '@shopify/hydrogen';
+import {CartAction} from '~/lib/cart/components';
+import {
+  Button,
+  Layout,
+  Banner,
+  Illustration,
+  Testimonial,
+  DonationText,
+} from '~/components';
 
 export async function loader({params, context}: LoaderArgs) {
   const {productHandle} = params;
@@ -35,7 +43,7 @@ export async function loader({params, context}: LoaderArgs) {
 
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
-  const {title, vendor, descriptionHtml} = product;
+  const {title, descriptionHtml} = product;
   const firstVariant = product.variants.nodes[0];
   const selectedVariant = product.selectedVariant ?? firstVariant;
 
@@ -63,26 +71,23 @@ export default function Product() {
 
             <div className="Product__Cart">
               <div className="Price Heading--2">
-                {/* <Money
-                  money={{
-                    amount: variant.priceV2.amount,
-                    currencyCode: variant.priceV2.currencyCode,
+                <Money
+                  data={{
+                    amount: selectedVariant.price.amount,
+                    currencyCode: selectedVariant.price.currencyCode,
                   }}
-                /> */}
-              </div>
-              {/* <AddToCartControls {...product} /> */}
-
-              <Form action="/cart" method="post">
-                <input type="hidden" name="action" value="LINES_ADD" />
-                <input
-                  type="hidden"
-                  name="lines"
-                  value={JSON.stringify(lines)}
                 />
-                <Button primary>Add to cart</Button>
-              </Form>
+              </div>
+
+              <CartAction action="LINES_ADD" inputs={lines}>
+                {({submission}) => (
+                  <Button loading={Boolean(submission)} primary>
+                    Add to cart
+                  </Button>
+                )}
+              </CartAction>
             </div>
-            {/* <DonationText /> */}
+            <DonationText />
           </div>
           <div className="Product__FeaturedImage">
             <div

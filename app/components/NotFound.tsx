@@ -1,8 +1,7 @@
-import {Link} from '@shopify/hydrogen';
+import {Link} from './Link';
+import {Layout} from './Layout';
 
-import Layout from '../components/Layout.server';
-
-export default function NotFound() {
+export function NotFound() {
   return (
     <Layout>
       <div className="Section--Page">

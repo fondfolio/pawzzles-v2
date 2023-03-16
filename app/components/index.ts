@@ -7,7 +7,9 @@ export {Link} from './Link';
 export {Testimonial} from './Testimonial';
 export {Button} from './Button';
 export {Cart} from './Cart';
-
+export {QuantityControls} from './QuantityControls';
+export {DonationText} from './DonationText';
+export {NotFound} from './NotFound';
 // export {Heading, Section, Text, PageHeader} from './Text';
 // export {Input} from './Input';
 // export {ProductGallery} from './ProductGallery';

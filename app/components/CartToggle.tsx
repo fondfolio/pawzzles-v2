@@ -20,7 +20,7 @@ export default function CartToggle({text}: Props) {
     <Icon name="Close" />
   ) : (
     <span className="Count">
-      <span className="Count__Text">{cart?.totalQuantity}</span>
+      <span className="Count__Text">{cart?.totalQuantity || 0}</span>
     </span>
   );
 
