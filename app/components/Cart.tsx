@@ -7,59 +7,8 @@ import {useCart} from '~/lib/cart/hooks';
 import {CartAction} from '~/lib/cart/components';
 import {Link} from '~/components';
 import {translations} from '../lib/translation';
-// import {useCartUI} from './CartUIProvider';
 import {Button} from './Button';
-// import {Drawer} from './Drawer';
 import {QuantityControls} from './QuantityControls';
-
-// export function Cart() {
-//   const {isCartOpen, closeCart} = useCartUI();
-//   return (
-//     <Drawer
-//       title="title"
-//       open={isCartOpen}
-//       onClose={closeCart}
-//       footer={<CartFooter />}
-//     >
-//       <CartContents />
-//     </Drawer>
-//   );
-// }
-
-// function CartFooter() {
-//   const {checkoutUrl, estimatedCost, lines} = useCart();
-
-//   if (lines.length === 0) {
-//     return null;
-//   }
-
-//   const {totalAmount} = estimatedCost;
-
-//   return (
-//     <footer>
-//       <Button url={checkoutUrl}>Checkout</Button>
-//       <div className="Cart__Bottom">
-//         <div className="Cart__Subtotal">
-//           <span className="Cart__SubtotalLabel Heading--4">
-//             {translations.cart.subtotal}
-//           </span>
-//           <Money
-//             className="Cart__SubtotalValue Heading--2"
-//             money={{
-//               amount: totalAmount.amount,
-//               currencyCode: totalAmount.currencyCode,
-//             }}
-//           />
-//         </div>
-//         <Button extrude circle primary url={checkoutUrl}>
-//           <span className="Button__Target">
-//             {translations.layout.cart.checkout}
-//           </span>
-//         </Button>
-//       </div>
-//     </footer>
-//   );
-// }
 
 type Theme = 'light' | 'dark';
 
@@ -90,6 +39,7 @@ export function Cart({theme}: CartProps) {
       {flattenedLines.map((line) => (
         <CartItem theme={theme || 'light'} key={line.id} item={line} />
       ))}
+      <CartFooter />
     </div>
   );
 }
@@ -129,20 +79,23 @@ function CartItem({item, theme}: CartItemProps) {
               {title}
             </Button>
             <h4>{byLineMarkup}</h4>
-            <CartAction
-              inputs={{lineIds: [id]}}
-              action="LINES_REMOVE"
-              trigger={
-                <Button
-                  aria-label="Remove from cart"
-                  inverted={theme === 'dark'}
-                  small
-                  primary
-                >
-                  {translations.layout.cart.remove}
-                </Button>
-              }
-            />
+            <div className="Item__Remove">
+              <Money data={price} className="Item__Price" />
+              <CartAction
+                inputs={{lineIds: [id]}}
+                action="LINES_REMOVE"
+                trigger={
+                  <Button
+                    aria-label="Remove from cart"
+                    inverted={theme === 'dark'}
+                    small
+                    primary
+                  >
+                    {translations.layout.cart.remove}
+                  </Button>
+                }
+              />
+            </div>
           </div>
         </div>
         <div className="Item__Line">
@@ -164,5 +117,33 @@ function CartItem({item, theme}: CartItemProps) {
         </div>
       </div>
     </div>
+  );
+}
+
+function CartFooter() {
+  const {checkoutUrl, cost} = useCart() || {};
+
+  const {totalAmount} = cost || {};
+
+  return (
+    <footer className="Cart__Footer">
+      <div className="Cart__Subtotal">
+        <span className="Cart__SubtotalLabel Heading--4">
+          {translations.cart.subtotal}
+        </span>
+        <Money
+          className="Cart__SubtotalValue Heading--2"
+          data={{
+            amount: totalAmount?.amount,
+            currencyCode: totalAmount?.currencyCode,
+          }}
+        />
+      </div>
+      <Button extrude circle primary url={checkoutUrl}>
+        <span className="Button__Target">
+          {translations.layout.cart.checkout}
+        </span>
+      </Button>
+    </footer>
   );
 }

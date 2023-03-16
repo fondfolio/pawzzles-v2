@@ -5,7 +5,7 @@ import {Button} from './Button';
 import {url} from '../lib/url';
 import {translations} from '../lib/translation';
 
-export function Navigation({loading}) {
+export function Navigation({loading}: {loading?: boolean}) {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const items = [
     {
@@ -28,15 +28,7 @@ export function Navigation({loading}) {
     );
   });
 
-  const cartMarkup = loading ? null : (
-    <CartToggle
-      handleClick={() => {
-        if (isMobileNavOpen) {
-          setIsMobileNavOpen(false);
-        }
-      }}
-    />
-  );
+  const cartMarkup = loading ? null : <CartToggle text="View Cart" />;
 
   return (
     <div className="Nav">

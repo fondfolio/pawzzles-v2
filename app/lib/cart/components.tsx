@@ -47,6 +47,17 @@ export function CartAction<T extends CartAction>({
 
   switch (action) {
     case 'LINES_UPDATE':
+      fields = inputs.map((line) => {
+        return (
+          <input
+            key={line.merchandiseId}
+            type="hidden"
+            name="lines"
+            value={JSON.stringify([line])}
+          />
+        );
+      });
+      break;
     case 'LINES_ADD':
       fields = inputs.map((line) => {
         return (

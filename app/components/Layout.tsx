@@ -1,8 +1,9 @@
+import React from 'react';
 import {Header} from './Header';
 import {Footer} from './Footer';
 import {SkipToContent} from './SkipToContent';
 
-export function Layout({children}) {
+export function Layout({children}: React.PropsWithChildren<{}>) {
   const contentId = 'mainContent';
 
   return (

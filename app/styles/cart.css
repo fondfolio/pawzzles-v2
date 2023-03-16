@@ -3,7 +3,8 @@
 }
 
 .Item {
-  padding: 24px;
+  padding: 8px 24px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   transition: opacity 400ms;
@@ -33,6 +34,16 @@
   font-weight: 600;
 }
 
+.Item__Remove {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-around;
+}
+
+.Item__Price {
+  padding: 0 12px 0 0;
+}
+
 .Item__Price strong {
   font-size: 80%;
   padding-right: 2px;
@@ -48,19 +59,17 @@
   align-items: center;
 }
 
-.Cart__Bottom {
+.Cart__Footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  padding: 24px;
+  width: 100%;
+  align-self: flex-end;
 }
 
 .Cart__Subtotal {
-  padding-right: 48px;
+  padding-right: 80px;
 }
 
 .Cart__SubtotalLabel {
@@ -89,6 +98,10 @@
     padding-left: 16px;
     flex-direction: row;
     align-items: center;
+  }
+
+  .Cart__Footer {
+    justify-content: flex-end;
   }
 }
 

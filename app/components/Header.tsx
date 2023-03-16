@@ -1,8 +1,7 @@
 import {Navigation} from './Navigation';
 import {Logo} from './Logo';
-// import {Cart} from './Cart';
 
-export function Header({loading}) {
+export function Header({loading}: {loading?: boolean}) {
   const content = loading ? (
     <>
       <Logo />
@@ -12,7 +11,6 @@ export function Header({loading}) {
     <>
       <Logo />
       <Navigation />
-      {/* <Cart /> */}
     </>
   );
   return (

@@ -50,30 +50,26 @@ export class AlphaCart {
     this.numCartLines = options.numCartLines || 250;
   }
 
-  async perform(request: Request) {
+  async perform(request: Request): Promise<[Result, Headers, number]> {
     const formData = await request.formData();
     const action = formData.get('action');
-    const data: Record<string, unknown> = {};
+    const data = {};
 
     for (const [key, val] of formData.entries()) {
-      console.log(key, val);
       data[key] = this.parse(val);
     }
 
-    console.log('here', action, data);
+    console.log('+++++++++++++++++++++++++++++');
+    console.log(`Performing cart ${action} with ${JSON.stringify(data)}.`);
+    console.log('+++++++++++++++++++++++++++++');
 
     switch (action) {
       case 'LINES_ADD':
-        return this.linesAdd({lines: data.lines as CartLineInput[]});
+        return this.linesAdd(data);
       case 'LINES_REMOVE':
-        return this.linesRemove({
-          lineIds: Array.isArray(data.lineIds) ? data.lineIds : [data.lineIds],
-        });
+        return this.linesRemove(data);
       case 'LINES_UPDATE':
-        return this.linesUpdate({
-          lines: [data.lines.line] as CartLineUpdateInput[],
-        });
-
+        return this.linesUpdate(data);
       default:
         // TODO make typescript aware
         throw new Error(`Unknown cart action: ${action}`);
@@ -104,13 +100,6 @@ export class AlphaCart {
     return cart;
   }
 
-  /**
-   * Create a cart with line(s) mutation
-   * @param input CartInput https://shopify.dev/api/storefront/2022-01/input-objects/CartInput
-   * @see https://shopify.dev/api/storefront/2022-01/mutations/cartcreate
-   * @returns result {cart, errors}
-   * @preserve
-   */
   async create({input}: {input: CartInput}, options: OperationOptions) {
     const {cartCreate} = await this.storefront.mutate<{
       cartCreate: {
@@ -119,21 +108,17 @@ export class AlphaCart {
       };
       errors: UserError[];
     }>(CartCreate(this.cartFragment), {
-      variables: {input, countryCode: this.countryCode},
+      variables: {
+        input,
+        countryCode: this.countryCode,
+        numCartLines: this.numCartLines,
+      },
     });
 
     const response = await this.respond(cartCreate, options);
     return response;
   }
 
-  /**
-   * Storefront API cartLinesAdd mutation
-   * @param cartId
-   * @param lines [CartLineInput!]! https://shopify.dev/api/storefront/2022-01/input-objects/CartLineInput
-   * @see https://shopify.dev/api/storefront/2022-01/mutations/cartLinesAdd
-   * @returns result {cart, errors}
-   * @preserve
-   */
   async linesAdd(
     {lines}: {lines: CartLineInput[]},
     options: OperationOptions = {},
@@ -155,14 +140,6 @@ export class AlphaCart {
     }
   }
 
-  /**
-   * Create a cart with line(s) mutation
-   * @param cartId the current cart id
-   * @param lineIds [ID!]! an array of cart line ids to remove
-   * @see https://shopify.dev/api/storefront/2022-07/mutations/cartlinesremove
-   * @returns mutated cart
-   * @preserve
-   */
   async linesRemove(
     {lineIds}: {lineIds: CartType['id'][]},
     options: OperationOptions = {},
@@ -181,19 +158,10 @@ export class AlphaCart {
     return response;
   }
 
-  /**
-   * Update cart line(s) mutation
-   * @param cartId the current cart id
-   * @param lines [CartLineUpdateInput!]! an array of cart line ids to remove
-   * @see https://shopify.dev/api/storefront/2022-07/mutations/cartlinesremove
-   * @returns mutated cart
-   * @preserve
-   */
   async linesUpdate(
     {lines}: {lines: CartLineUpdateInput[]},
     options: OperationOptions = {},
   ) {
-    console.log('lines', lines);
     const {cartLinesUpdate} = await this.storefront.mutate<{
       cartLinesUpdate: {cart: CartType; errors: CartUserError[]};
     }>(CartLineUpdate(this.cartFragment), {
@@ -213,7 +181,20 @@ export class AlphaCart {
   attributesUpdate() {}
   discountCodesUpdate() {}
 
-  private async respond(result: Result, options: OperationOptions) {
+  static async init(
+    request: Request,
+    storefront: Storefront,
+    storage: SessionStorage,
+    options: CartOptions = {},
+  ) {
+    const session = await storage.getSession(request.headers.get('Cookie'));
+    return new this(storage, session, storefront, options);
+  }
+
+  private async respond(
+    result: Result,
+    options: OperationOptions,
+  ): Promise<[Result, Headers, number]> {
     let status = 200;
 
     if (result.errors) {
@@ -225,33 +206,19 @@ export class AlphaCart {
       status = 302;
     }
 
-    console.log('result', result);
-
     this.id = result.cart.id;
     this.headers.set(
       'Set-Cookie',
       await this.sessionStorage.commitSession(this.session),
     );
 
-    return [{result}, {headers: this.headers, status}];
-  }
-
-  static async init(
-    request: Request,
-    storefront: Storefront,
-    storage: SessionStorage,
-    options: CartOptions = {},
-  ) {
-    const session = await storage.getSession(request.headers.get('Cookie'));
-    return new this(storage, session, storefront, options);
+    return [result, this.headers, status];
   }
 
   private parse(input: FormDataEntryValue | null) {
     if (input === null) {
       throw new Error('Missing input');
     }
-
-    console.log(input);
 
     try {
       return JSON.parse(String(input));

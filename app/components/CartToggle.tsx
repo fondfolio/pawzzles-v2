@@ -1,12 +1,14 @@
 import {Icon} from './Icon';
 import {classNames} from '@shopify/css-utilities';
 import {Link} from '~/components/Link';
+import {useCart} from '~/lib/cart/hooks';
 
 interface Props {
   text: string;
 }
 
 export default function CartToggle({text}: Props) {
+  const cart = useCart();
   const isCartOpen = false;
   const buttonClassName = classNames('Button', {
     CartToggle: true,
@@ -18,7 +20,7 @@ export default function CartToggle({text}: Props) {
     <Icon name="Close" />
   ) : (
     <span className="Count">
-      <span className="Count__Text">0</span>
+      <span className="Count__Text">{cart?.totalQuantity}</span>
     </span>
   );
 

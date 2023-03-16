@@ -7,17 +7,15 @@ import {Cart as CartUi} from '~/components';
 export async function action({request, context}: ActionArgs) {
   const {cart} = context;
 
-  const [result, head] = await cart.perform(request);
+  const [result, headers, status] = await cart.perform(request);
 
-  return json({cart: result}, {headers: head.headers, status: head.status});
+  return json({cart: result}, {headers, status});
 }
 
 export async function loader({context}: LoaderArgs) {
-  const {cart} = context;
+  const cart = await context.cart.get();
 
-  const cartResponse = await cart.get();
-
-  return json({cart: cartResponse});
+  return json({cart});
 }
 
 export default function Cart() {
