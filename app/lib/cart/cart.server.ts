@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import type {
   Cart as CartType,
   CartInput,
@@ -52,12 +53,26 @@ export class AlphaCart {
   async perform(request: Request) {
     const formData = await request.formData();
     const action = formData.get('action');
+    const data: Record<string, unknown> = {};
 
-    const lines = this.parse(formData.get('lines'));
+    for (const [key, val] of formData.entries()) {
+      console.log(key, val);
+      data[key] = this.parse(val);
+    }
+
+    console.log('here', action, data);
 
     switch (action) {
-      case 'ADD_TO_CART':
-        return this.linesAdd({lines});
+      case 'LINES_ADD':
+        return this.linesAdd({lines: data.lines as CartLineInput[]});
+      case 'LINES_REMOVE':
+        return this.linesRemove({
+          lineIds: Array.isArray(data.lineIds) ? data.lineIds : [data.lineIds],
+        });
+      case 'LINES_UPDATE':
+        return this.linesUpdate({
+          lines: [data.lines.line] as CartLineUpdateInput[],
+        });
 
       default:
         // TODO make typescript aware
@@ -85,8 +100,6 @@ export class AlphaCart {
         cache: this.storefront.CacheNone(),
       },
     );
-
-    console.log('cart', cart);
 
     return cart;
   }
@@ -125,7 +138,6 @@ export class AlphaCart {
     {lines}: {lines: CartLineInput[]},
     options: OperationOptions = {},
   ) {
-    console.log(lines);
     if (!this.id) {
       return this.create({input: {lines}}, options);
     } else {
@@ -143,8 +155,59 @@ export class AlphaCart {
     }
   }
 
-  linesRemove() {}
-  linesUpdate() {}
+  /**
+   * Create a cart with line(s) mutation
+   * @param cartId the current cart id
+   * @param lineIds [ID!]! an array of cart line ids to remove
+   * @see https://shopify.dev/api/storefront/2022-07/mutations/cartlinesremove
+   * @returns mutated cart
+   * @preserve
+   */
+  async linesRemove(
+    {lineIds}: {lineIds: CartType['id'][]},
+    options: OperationOptions = {},
+  ) {
+    const {cartLinesRemove} = await this.storefront.mutate<{
+      cartLinesRemove: {cart: CartType; errors: UserError[]};
+    }>(CartLineRemove(this.cartFragment), {
+      variables: {
+        cartId: this.id,
+        lineIds,
+        countryCode: this.countryCode,
+      },
+    });
+
+    const response = await this.respond(cartLinesRemove, options);
+    return response;
+  }
+
+  /**
+   * Update cart line(s) mutation
+   * @param cartId the current cart id
+   * @param lines [CartLineUpdateInput!]! an array of cart line ids to remove
+   * @see https://shopify.dev/api/storefront/2022-07/mutations/cartlinesremove
+   * @returns mutated cart
+   * @preserve
+   */
+  async linesUpdate(
+    {lines}: {lines: CartLineUpdateInput[]},
+    options: OperationOptions = {},
+  ) {
+    console.log('lines', lines);
+    const {cartLinesUpdate} = await this.storefront.mutate<{
+      cartLinesUpdate: {cart: CartType; errors: CartUserError[]};
+    }>(CartLineUpdate(this.cartFragment), {
+      variables: {
+        cartId: this.id,
+        lines,
+        countryCode: this.countryCode,
+      },
+    });
+
+    const response = await this.respond(cartLinesUpdate, options);
+    return response;
+  }
+
   noteUpdate() {}
   buyerIdentityUpdate() {}
   attributesUpdate() {}
@@ -188,7 +251,13 @@ export class AlphaCart {
       throw new Error('Missing input');
     }
 
-    return JSON.parse(String(input));
+    console.log(input);
+
+    try {
+      return JSON.parse(String(input));
+    } catch {
+      return input;
+    }
   }
 }
 
@@ -240,11 +309,11 @@ export const CartCreate = (cartFragment: string): string => /* GraphQL */ `
 export const CartLineRemove = (cartFragment: string): string => /* GraphQL */ `
   mutation CartLineRemove(
     $cartId: ID!
-    $lines: [ID!]!
+    $lineIds: [ID!]!
     $numCartLines: Int = 250
     $country: CountryCode = ZZ
   ) @inContext(country: $country) {
-    cartLinesRemove(cartId: $cartId, lineIds: $lines) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
         ...CartFragment
       }

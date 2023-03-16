@@ -7,8 +7,6 @@ import {Cart as CartUi} from '~/components';
 export async function action({request, context}: ActionArgs) {
   const {cart} = context;
 
-  console.log('hit cart action');
-
   const [result, head] = await cart.perform(request);
 
   return json({cart: result}, {headers: head.headers, status: head.status});

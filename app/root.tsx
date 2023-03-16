@@ -81,7 +81,7 @@ export default function App() {
       currency,
     };
 
-    console.log('payload', payload);
+    // console.log('payload', payload);
 
     sendShopifyAnalytics({
       eventName: AnalyticsEventName.PAGE_VIEW,

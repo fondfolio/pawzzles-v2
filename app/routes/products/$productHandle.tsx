@@ -73,7 +73,7 @@ export default function Product() {
               {/* <AddToCartControls {...product} /> */}
 
               <Form action="/cart" method="post">
-                <input type="hidden" name="action" value="ADD_TO_CART" />
+                <input type="hidden" name="action" value="LINES_ADD" />
                 <input
                   type="hidden"
                   name="lines"

@@ -79,7 +79,7 @@ export function Button({
       {content} {loadingMarkup}
     </a>
   ) : (
-    <button {...props} onClick={onClick}>
+    <button {...props}>
       {content} {loadingMarkup}
     </button>
   );

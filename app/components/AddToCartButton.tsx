@@ -18,7 +18,7 @@ export function AddToCartButton({children, lines, productAnalytics}: Props) {
   return (
     <fetcher.Form action="/cart" method="post">
       <input type="hidden" name="analytics" value={JSON.stringify(analytics)} />
-      <input type="hidden" name="cartAction" value="ADD_TO_CART" />
+      <input type="hidden" name="cartAction" value="LINES_ADD" />
       <input type="hidden" name="lines" value={JSON.stringify(lines)} />
       <Button>{children}</Button>
     </fetcher.Form>
