@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import {defer, type LoaderArgs} from '@shopify/remix-oxygen';
 import {useLoaderData} from '@remix-run/react';
 import type {
@@ -5,7 +6,7 @@ import type {
   Product as ProductType,
   CartLineInput,
 } from '@shopify/hydrogen/storefront-api-types';
-import {Money} from '@shopify/hydrogen';
+import {Money, Image} from '@shopify/hydrogen';
 import {CartAction} from '~/lib/cart/components';
 import {
   Button,
@@ -15,6 +16,7 @@ import {
   Testimonial,
   DonationText,
 } from '~/components';
+import {translations} from '~/lib/translation';
 
 export async function loader({params, context}: LoaderArgs) {
   const {productHandle} = params;
@@ -43,6 +45,7 @@ export async function loader({params, context}: LoaderArgs) {
 
 export default function Product() {
   const {product} = useLoaderData<typeof loader>();
+  const [quantity, setQuantity] = useState(1);
   const {title, descriptionHtml} = product;
   const firstVariant = product.variants.nodes[0];
   const selectedVariant = product.selectedVariant ?? firstVariant;
@@ -50,11 +53,9 @@ export default function Product() {
   const lines = [
     {
       merchandiseId: selectedVariant.id,
-      quantity: 1,
+      quantity,
     },
   ];
-
-  console.log(lines);
 
   return (
     <Layout>
@@ -78,12 +79,38 @@ export default function Product() {
                   }}
                 />
               </div>
-
               <CartAction action="LINES_ADD" inputs={lines}>
                 {({submission}) => (
-                  <Button loading={Boolean(submission)} primary>
-                    Add to cart
-                  </Button>
+                  <div className="AddToCartControls ">
+                    <div className="QuantityControls">
+                      <Button
+                        primary
+                        icon={{
+                          name: 'Subtract',
+                          fallbackText: translations.layout.cart.subtract_item,
+                        }}
+                        onClick={() => setQuantity(quantity - 1)}
+                      />
+                      <span className="strong Item__Quantity">{quantity}</span>
+                      <Button
+                        primary
+                        icon={{
+                          name: 'Add',
+                          fallbackText: translations.layout.cart.add_item,
+                        }}
+                        onClick={() => setQuantity(quantity + 1)}
+                      />
+                    </div>
+
+                    <Button
+                      type="submit"
+                      loading={Boolean(submission)}
+                      primary
+                      padded
+                    >
+                      Add to cart
+                    </Button>
+                  </div>
                 )}
               </CartAction>
             </div>
@@ -94,20 +121,18 @@ export default function Product() {
               className="Media Image Image--floating"
               style={{paddingTop: '82%'}}
             >
-              {/* <Product.SelectedVariant.Image
-                className="Media__Item"
-                options={{
-                  width: '1000',
-                }}
-              /> */}
+              {selectedVariant.image && (
+                <Image className="Media__Item" data={selectedVariant.image} />
+              )}
             </div>
           </div>
         </div>
         <div className="Product__Dimensions">
           <div className="Dimensions__Image">
             <img
-              src="//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-diagram-static.svg"
-              alt=""
+              src={
+                '//cdn.shopify.com/s/files/1/0457/6857/2950/t/3/assets/pawzzle-diagram-static.svg'
+              }
             />
           </div>
           <div className="Dimensions__Content small">
@@ -188,15 +213,11 @@ const PRODUCT_QUERY = `#graphql
             currencyCode
           }
           availableForSale
+          image {
+            url
+          }
         }
       }
     }
   }
 `;
-
-interface Props {
-  children: React.ReactNode;
-  lines: CartLineInput[];
-  analytics?: unknown;
-  action: CartAction;
-}

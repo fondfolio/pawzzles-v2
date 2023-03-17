@@ -59,6 +59,7 @@ export default {
             httpOnly: true,
             path: '/',
             sameSite: 'lax',
+            secrets: [env.SESSION_SECRET],
           },
         }),
       );
@@ -87,7 +88,6 @@ export default {
       return response;
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error(error);
       return new Response('An unexpected error occurred', {status: 500});
     }
   },

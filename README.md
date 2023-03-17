@@ -10,3 +10,4 @@
 - Interaction events that expects a response from an API
 - How do I set the cookie consent
 - Add useMatches import on useAnalyticsFromLoaders
+- wrong storefront api token provdies a stupid error

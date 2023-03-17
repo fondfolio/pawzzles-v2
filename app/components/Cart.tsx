@@ -93,6 +93,7 @@ function CartItem({item, theme}: CartItemProps) {
                     inverted={theme === 'dark'}
                     small
                     primary
+                    type="submit"
                   >
                     {translations.layout.cart.remove}
                   </Button>

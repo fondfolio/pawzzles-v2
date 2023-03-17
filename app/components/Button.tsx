@@ -21,6 +21,7 @@ interface ButtonProps {
   padded?: boolean;
   extrude?: boolean;
   circle?: boolean;
+  type?: 'button' | 'submit';
 }
 
 export function Button({
@@ -37,6 +38,7 @@ export function Button({
   padded,
   extrude,
   circle,
+  type = 'button',
 }: ButtonProps) {
   const buttonClassName = classNames('Button', {
     'Button--icon': icon,
@@ -79,7 +81,7 @@ export function Button({
       {content} {loadingMarkup}
     </a>
   ) : (
-    <button {...props}>
+    <button {...props} type={type} onClick={onClick}>
       {content} {loadingMarkup}
     </button>
   );

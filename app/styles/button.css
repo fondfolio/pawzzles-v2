@@ -84,6 +84,8 @@ button,
 
 .Button__Spinner {
   margin: 0 8px;
+  position: relative;
+  top: 3px;
 }
 
 .Button--circle,

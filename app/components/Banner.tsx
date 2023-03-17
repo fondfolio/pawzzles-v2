@@ -1,11 +1,11 @@
 import {classNames} from '@shopify/css-utilities';
 
 interface BannerProps {
-  children: React.ReactNode;
-  heading: string;
-  media: React.ReactNode;
-  align: 'left' | 'right';
-  inverted: boolean;
+  children?: React.ReactNode;
+  heading?: string;
+  media?: React.ReactNode;
+  align?: 'left' | 'right';
+  inverted?: boolean;
 }
 
 export function Banner({

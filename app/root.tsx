@@ -1,4 +1,5 @@
 import {
+  json,
   type LinksFunction,
   type MetaFunction,
   type LoaderArgs,
@@ -24,7 +25,7 @@ import type {Shop} from '@shopify/hydrogen/storefront-api-types';
 import styles from './styles/app.css';
 import {useAnalyticsFromLoaders} from './lib/analytics';
 import favicon from '../public/favicon.svg';
-import {NotFound} from '~/components';
+import {Error} from '~/components';
 
 export const links: LinksFunction = () => {
   return [
@@ -58,37 +59,37 @@ export async function loader({context}: LoaderArgs) {
     context.cart.get(),
   ]);
 
-  return {layout, cart};
+  return json({layout, cart});
 }
 
 export default function App() {
-  const hasUserConsent = true;
-  useShopifyCookies({hasUserConsent});
-  const data = useLoaderData<typeof loader>();
-  const location = useLocation();
-  const pageAnalytics = useAnalyticsFromLoaders();
+  // const hasUserConsent = true;
+  // useShopifyCookies({hasUserConsent});
+  // const data = useLoaderData<typeof loader>();
+  // const location = useLocation();
+  // const pageAnalytics = useAnalyticsFromLoaders();
 
-  const {moneyFormat, id: shopId} = data.layout.shop;
+  // const {moneyFormat, id: shopId} = data.layout.shop ||
 
-  const currency = 'USD' as const;
-  useEffect(() => {
-    const payload = {
-      ...getClientBrowserParameters(),
-      ...pageAnalytics,
-      cartId: data.cartId,
-      shopId,
-      hasUserConsent,
-      shopifySalesChannel: ShopifySalesChannel.hydrogen,
-      currency,
-    };
+  // const currency = 'USD' as const;
+  // useEffect(() => {
+  //   const payload = {
+  //     ...getClientBrowserParameters(),
+  //     ...pageAnalytics,
+  //     cartId: data.cartId,
+  //     shopId,
+  //     hasUserConsent,
+  //     shopifySalesChannel: ShopifySalesChannel.hydrogen,
+  //     currency,
+  //   };
 
-    // console.log('payload', payload);
+  //   // console.log('payload', payload);
 
-    sendShopifyAnalytics({
-      eventName: AnalyticsEventName.PAGE_VIEW,
-      payload,
-    });
-  }, [location]);
+  //   sendShopifyAnalytics({
+  //     eventName: AnalyticsEventName.PAGE_VIEW,
+  //     payload,
+  //   });
+  // }, [location]);
 
   return (
     <html lang="en">
@@ -113,7 +114,7 @@ export function ErrorBoundary({error}: {error: Error}) {
         <Links />
       </head>
       <body>
-        <NotFound />
+        <Error error={error} />
         <ScrollRestoration />
         <Scripts />
       </body>

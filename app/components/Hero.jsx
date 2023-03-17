@@ -12,6 +12,8 @@ export function Hero({product}) {
     return null;
   }
 
+  console.log('firstVariant', firstVariant);
+
   return (
     <div className="shopify-section Section--Hero">
       <section className="Hero">
@@ -91,7 +93,7 @@ export function Hero({product}) {
                     height={2000}
                     width={1647}
                     className="Image"
-                    image={firstVariant?.image}
+                    data={firstVariant?.image}
                   />
                 )}
               </Link>

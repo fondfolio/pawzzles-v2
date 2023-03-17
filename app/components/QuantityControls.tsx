@@ -22,6 +22,7 @@ export function QuantityControls({outline, quantity, inverted, line}: Props) {
             outline={outline}
             inverted={inverted}
             primary
+            type="submit"
             icon={{
               name: 'Subtract',
               fallbackText: translations.layout.cart.subtract_item,
@@ -39,6 +40,7 @@ export function QuantityControls({outline, quantity, inverted, line}: Props) {
             outline={outline}
             inverted={inverted}
             primary
+            type="submit"
             icon={{
               name: 'Add',
               fallbackText: translations.layout.cart.add_item,

@@ -43,7 +43,7 @@ export default function Index({country = {isoCode: 'US'}}) {
         src="//cdn.shopify.com/s/files/1/0457/6857/2950/files/cat-top-blue-static_2x_a74ea06d-edc8-4039-9c43-865ff34df537_750x.png"
       />
       <Banner
-        title="Pawrigin story"
+        heading="Pawrigin story"
         media={
           <video className="Video" loop="" muted="" autoPlay="">
             <source
@@ -150,6 +150,9 @@ const QUERY = `#graphql
             price {
               amount
               currencyCode
+            }
+            image {
+              url
             }
           }
         }
