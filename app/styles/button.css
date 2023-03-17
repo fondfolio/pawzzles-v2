@@ -104,11 +104,16 @@ button,
 }
 
 .Button--padded {
-  padding: 0 32px 0 16px;
+  padding: 8px 32px 8px 16px;
   text-decoration: none;
 }
 
 .Button--padded:hover,
 .Button--outline:hover {
   text-decoration: underline;
+}
+
+.Button--loading {
+  pointer-events: none;
+  opacity: 0.5;
 }

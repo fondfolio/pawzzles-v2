@@ -65,7 +65,7 @@ export default function Product() {
             <h1 className="Product__Title">{title}</h1>
 
             <div className="Product__Description">
-              <div className="p">
+              <div className="p medium">
                 <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
               </div>
             </div>

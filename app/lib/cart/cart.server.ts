@@ -59,10 +59,6 @@ export class AlphaCart {
       data[key] = this.parse(val);
     }
 
-    console.log('+++++++++++++++++++++++++++++');
-    console.log(`Performing cart ${action} with ${JSON.stringify(data)}.`);
-    console.log('+++++++++++++++++++++++++++++');
-
     switch (action) {
       case 'LINES_ADD':
         return this.linesAdd(data);
@@ -197,7 +193,7 @@ export class AlphaCart {
   ): Promise<[Result, Headers, number]> {
     let status = 200;
 
-    if (result.errors) {
+    if (result.errors?.length) {
       status = 400;
     }
 

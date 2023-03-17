@@ -1,8 +1,6 @@
 .QuantityControls {
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  margin-left: -36px;
 }
 
 .QuantityControls button,
@@ -10,10 +8,4 @@
   margin: 0px 8px 0px;
   min-width: 20px;
   text-align: center;
-}
-
-@media screen and (min-width: 750px) {
-  .QuantityControls {
-    /* padding: 16px 24px; */
-  }
 }

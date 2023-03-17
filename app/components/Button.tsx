@@ -70,18 +70,19 @@ export function Button({
     className: buttonClassName,
   };
 
-  const loadingMarkup = loading ? (
-    <span className="Button__Spinner">
-      <Icon name="Spinner" />
-    </span>
-  ) : null;
+  const loadingMarkup =
+    loading && !icon ? (
+      <span className="Button__Spinner">
+        <Icon name="Spinner" />
+      </span>
+    ) : null;
 
   const element = url ? (
     <a {...props} href={url}>
       {content} {loadingMarkup}
     </a>
   ) : (
-    <button {...props} type={type} onClick={onClick}>
+    <button {...props} disabled={loading} type={type} onClick={onClick}>
       {content} {loadingMarkup}
     </button>
   );
