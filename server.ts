@@ -50,19 +50,7 @@ export default {
         storefrontHeaders: getStorefrontHeaders(request),
       });
 
-      // const cart = await Cart.init(
-      //   request,
-      //   storefront,
-      //   createCookieSessionStorage({
-      //     cookie: {
-      //       name: 'session',
-      //       httpOnly: true,
-      //       path: '/',
-      //       sameSite: 'lax',
-      //       secrets: [env.SESSION_SECRET],
-      //     },
-      //   }),
-      // );
+      const cart = await new Cart(request, storefront, session);
 
       /**
        * Create a Remix request handler and pass
