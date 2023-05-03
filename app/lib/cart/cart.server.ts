@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import type {
   Cart as CartType,
   CartInput,
@@ -6,14 +5,12 @@ import type {
   CartLineUpdateInput,
   CartUserError,
   UserError,
-  CartBuyerIdentityInput,
 } from '@shopify/hydrogen/storefront-api-types';
 import {
   type AppLoadContext,
   type SessionStorage,
   type Session,
 } from '@shopify/remix-oxygen';
-
 import {CartAction} from './types';
 
 type Storefront = AppLoadContext['storefront'];
@@ -33,7 +30,9 @@ interface OperationOptions {
   redirect?: string;
 }
 
-export class AlphaCart {
+type CartResponse = Result & {headers: Headers; status: number};
+
+export class Cart {
   private cartFragment: string;
   private countryCode: string;
   private numCartLines: number;
@@ -50,10 +49,10 @@ export class AlphaCart {
     this.numCartLines = options.numCartLines || 250;
   }
 
-  async perform(request: Request): Promise<[Result, Headers, number]> {
+  async perform(request: Request): Promise<CartResponse> {
     const formData = await request.formData();
-    const action = formData.get('action');
-    const data = {};
+    const action = formData.get('action') as CartAction;
+    const data: Record<string, unknown> = {};
 
     for (const [key, val] of formData.entries()) {
       data[key] = this.parse(val);
@@ -61,14 +60,13 @@ export class AlphaCart {
 
     switch (action) {
       case 'LINES_ADD':
-        return this.linesAdd(data);
+        return this.linesAdd(data as {lines: CartLineInput[]});
       case 'LINES_REMOVE':
-        return this.linesRemove(data);
+        return this.linesRemove(data as {lineIds: CartType['id'][]});
       case 'LINES_UPDATE':
-        return this.linesUpdate(data);
+        return this.linesUpdate(data as {lines: CartLineUpdateInput[]});
       default:
-        // TODO make typescript aware
-        throw new Error(`Unknown cart action: ${action}`);
+        assertUnreachable(action);
     }
   }
 
@@ -116,9 +114,10 @@ export class AlphaCart {
   }
 
   async linesAdd(
-    {lines}: {lines: CartLineInput[]},
+    input: {lines: CartLineInput[]},
     options: OperationOptions = {},
   ) {
+    const {lines} = input;
     if (!this.id) {
       return this.create({input: {lines}}, options);
     } else {
@@ -190,10 +189,11 @@ export class AlphaCart {
   private async respond(
     result: Result,
     options: OperationOptions,
-  ): Promise<[Result, Headers, number]> {
+  ): Promise<CartResponse> {
     let status = 200;
+    const {errors, cart} = result;
 
-    if (result.errors?.length) {
+    if (errors?.length) {
       status = 400;
     }
 
@@ -202,16 +202,16 @@ export class AlphaCart {
       status = 302;
     }
 
-    this.id = result.cart.id;
+    this.id = cart.id;
     this.headers.set(
       'Set-Cookie',
       await this.sessionStorage.commitSession(this.session),
     );
 
-    return [result, this.headers, status];
+    return {cart, errors, headers: this.headers, status};
   }
 
-  private parse(input: FormDataEntryValue | null) {
+  private parse(input: FormDataEntryValue | null): unknown {
     if (input === null) {
       throw new Error('Missing input');
     }
@@ -501,3 +501,7 @@ export const defaultCartFragment = /* GraphQL */ `
     height
   }
 `;
+
+function assertUnreachable(x: never): never {
+  throw new Error(`Unknown cart action: ${x}`);
+}

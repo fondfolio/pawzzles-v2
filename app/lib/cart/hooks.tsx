@@ -1,11 +1,7 @@
 import {useMemo} from 'react';
-import {useMatches, useFetcher} from '@remix-run/react';
+import {useMatches} from '@remix-run/react';
 
-import type {
-  Cart as CartType,
-  CartLineInput,
-} from '@shopify/hydrogen/storefront-api-types';
-import {CartAction} from './types';
+import type {Cart as CartType} from '@shopify/hydrogen/storefront-api-types';
 
 export function useMatchesData(id: string) {
   const matchingRoutes = useMatches();

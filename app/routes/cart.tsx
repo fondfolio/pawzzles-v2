@@ -1,6 +1,4 @@
 import {json, ActionArgs, LoaderArgs} from '@shopify/remix-oxygen';
-import {useLoaderData} from '@remix-run/react';
-import {useCart} from '~/lib/cart/hooks';
 import {Layout} from '~/components';
 import {Cart as CartUi} from '~/components';
 
@@ -8,12 +6,14 @@ export async function action({request, context}: ActionArgs) {
   const {cart} = context;
 
   try {
-    const [result, headers, status] = await cart.perform(request);
+    const {cart: result, errors, headers, status} = await cart.perform(request);
 
-    if (result?.errors && result.errors.length > 0) {
+    if (errors && errors.length > 0) {
       const formData = await request.formData();
 
-      throw new Error(`Could not update the cart. ${formData.get('action')}`);
+      throw new Error(
+        `Could not update the cart. ${formData.get('action')} ${errors.join()}`,
+      );
     }
 
     return json({cart: result}, {headers, status});

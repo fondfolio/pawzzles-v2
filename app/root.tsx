@@ -54,12 +54,12 @@ export const meta: MetaFunction = () => ({
 });
 
 export async function loader({context}: LoaderArgs) {
-  const [layout, cart] = await Promise.all([
+  const [layout] = await Promise.all([
     context.storefront.query<{shop: Shop}>(LAYOUT_QUERY),
-    context.cart.get(),
+    // context.cart.get(),
   ]);
 
-  return json({layout, cart});
+  return json({layout});
 }
 
 export default function App() {
@@ -98,7 +98,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
         <ScrollRestoration />
         <Scripts />
       </body>

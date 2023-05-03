@@ -4,7 +4,7 @@
 
 import type {Storefront} from '@shopify/hydrogen';
 import type {HydrogenSession} from '../server';
-import type {AlphaCart} from './app/lib/cart/cart.server';
+import type {Cart} from './app/lib/cart/cart.server';
 
 declare global {
   /**
@@ -33,6 +33,6 @@ declare module '@shopify/remix-oxygen' {
     session: HydrogenSession;
     storefront: Storefront;
     env: Env;
-    cart: AlphaCart;
+    cart: Cart;
   }
 }

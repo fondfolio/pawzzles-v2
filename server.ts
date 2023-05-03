@@ -1,4 +1,5 @@
 // Virtual entry point for the app
+import {getStorefrontHeaders} from '@shopify/remix-oxygen';
 import * as remixBuild from '@remix-run/dev/server-build';
 import {createStorefrontClient, storefrontRedirect} from '@shopify/hydrogen';
 import {
@@ -9,7 +10,7 @@ import {
   type Session,
 } from '@shopify/remix-oxygen';
 
-import {AlphaCart} from './app/lib/cart/cart.server';
+import {Cart} from './app/lib/cart/cart.server';
 
 /**
  * Export a fetch handler in module format.
@@ -40,29 +41,28 @@ export default {
       const {storefront} = createStorefrontClient({
         cache,
         waitUntil,
-        buyerIp: getBuyerIp(request),
         i18n: {language: 'EN', country: 'US'},
         publicStorefrontToken: env.PUBLIC_STOREFRONT_API_TOKEN,
         privateStorefrontToken: env.PRIVATE_STOREFRONT_API_TOKEN,
         storeDomain: `https://${env.PUBLIC_STORE_DOMAIN}`,
         storefrontApiVersion: env.PUBLIC_STOREFRONT_API_VERSION || '2023-01',
         storefrontId: env.PUBLIC_STOREFRONT_ID,
-        requestGroupId: request.headers.get('request-id'),
+        storefrontHeaders: getStorefrontHeaders(request),
       });
 
-      const cart = await AlphaCart.init(
-        request,
-        storefront,
-        createCookieSessionStorage({
-          cookie: {
-            name: 'session',
-            httpOnly: true,
-            path: '/',
-            sameSite: 'lax',
-            secrets: [env.SESSION_SECRET],
-          },
-        }),
-      );
+      // const cart = await Cart.init(
+      //   request,
+      //   storefront,
+      //   createCookieSessionStorage({
+      //     cookie: {
+      //       name: 'session',
+      //       httpOnly: true,
+      //       path: '/',
+      //       sameSite: 'lax',
+      //       secrets: [env.SESSION_SECRET],
+      //     },
+      //   }),
+      // );
 
       /**
        * Create a Remix request handler and pass
@@ -71,7 +71,7 @@ export default {
       const handleRequest = createRequestHandler({
         build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => ({session, storefront, cart, env}),
+        getLoadContext: () => ({session, storefront, env}),
       });
 
       const response = await handleRequest(request);
